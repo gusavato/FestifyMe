@@ -108,14 +108,17 @@ def get_playlist_tracks(id_):
     are_next = True
     while are_next:
         for track in tracks['items']:
-            dictio = dict()
-            dictio['Track'] = track['track']['name']
-            dictio['Id_Track'] = track['track']['id']
-            dictio['Bands'] = track['track']['artists'][0]['name']
-            dictio['Id_Band_Spotify'] = track['track']['artists'][0]['id']
-            dictio['Track_Popularity'] = track['track']['popularity']
+            try:
+                dictio = dict()
+                dictio['Track'] = track['track']['name']
+                dictio['Id_Track'] = track['track']['id']
+                dictio['Bands'] = track['track']['artists'][0]['name']
+                dictio['Id_Band_Spotify'] = track['track']['artists'][0]['id']
+                dictio['Track_Popularity'] = track['track']['popularity']
 
-            lst.append(dictio)
+                lst.append(dictio)
+            except:
+                pass
 
         if tracks['next']:
             patron = r"offset=(\d+)"
@@ -131,3 +134,91 @@ def get_playlist_tracks(id_):
         df = pd.DataFrame(lst, index=[0])
 
     return df
+
+
+def get_full_tracks(user):
+    """
+    Función que dándole un usuario de Spotify, devuleve un ud DataFrame con
+    todas las canciones de sus playlist
+    """
+
+    df_playlist = get_user_playlists(user)
+
+    if df_playlist is None:
+        return None
+
+    df_tracks = pd.DataFrame(columns=['User', 'User_Id', 'Name_Playlist',
+                                      'Id_Playlist', 'Track', 'Id_Track',
+                                      'Bands', 'Id_Band_Spotify',
+                                      'Track_Popularity'])
+
+    for row in df_playlist.itertuples():
+        df = get_playlist_tracks(row.Id)
+        df[['User', 'User_Id', 'Name_Playlist', 'Id_Playlist']] = [
+            row.User, row.User_Id, row.Name, row.Id]
+        df = df[['User', 'User_Id', 'Name_Playlist', 'Id_Playlist', 'Track',
+                 'Id_Track', 'Bands', 'Id_Band_Spotify', 'Track_Popularity']]
+        df_tracks = pd.concat([df_tracks, df], axis=0).reset_index(drop=True)
+
+    return df_tracks
+
+
+def get_audio_features(list_tracks):
+    """
+    Función que devuelve las audio_features de un lista de canciones
+    """
+
+    sp = get_connection()
+
+    # La API de Spotify sólo permite consulvestorstas de 100 canciones max por
+    # consulta
+    lst = []
+    for n in range(len(list_tracks)//100 + 1):
+        lst.append(sp.audio_features(list_tracks[n*100:(n+1)*100]))
+
+    # Convertimos el array a 1D
+    features = []
+    for l in lst:
+        for track in l:
+            features.append(track)
+
+    df_features = pd.DataFrame(features)
+
+    return df_features
+
+
+def user_vectors(user):
+    """
+    Función que devuelve el vector con los parámetros del usuario en función 
+    de las features de las canciones de sus playlist públicas
+    """
+
+    df_tracks = get_full_tracks(user)
+
+    if df_tracks is None:
+        return None
+
+    # Obtenemos un dataframe con todas las canciones de todas las playlist
+    unique_tracks = df_tracks.Id_Track.unique()
+
+    df_features = get_audio_features(unique_tracks)
+
+    df_features = pd.merge(left=df_tracks, left_on='Id_Track',
+                           right=df_features, right_on='id', how='left')
+
+    # Creamos df con los vectores
+    vectors = pd.concat([df_features['Id_Playlist'], df_features._get_numeric_data(
+    )], axis=1).groupby('Id_Playlist', as_index=False).mean()
+
+    # Añadimos Id de usuario
+    vectors.insert(loc=0, column='User_Id',
+                   value=df_features['User_Id'].unique()[0])
+
+    # Añadimos fila con el vector de todas las listas
+
+    vectors.loc[vectors.shape[0]] = vectors.loc[0]
+    vectors.loc[vectors.shape[0]-1, 'Id_Playlist'] = 'All'
+    vectors.loc[vectors.shape[0]-1,
+                'danceability':] = vectors._get_numeric_data().mean()
+
+    return vectors
