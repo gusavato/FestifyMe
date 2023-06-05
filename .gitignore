@@ -1,5 +1,6 @@
 # Secret
 Spotify_id.py
+Mongo_pass.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -81,6 +82,7 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 draft.ipynb
+draft_mongo.ipynb
 
 # IPython
 profile_default/
