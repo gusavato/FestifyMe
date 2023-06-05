@@ -42,3 +42,19 @@ def load_fest_feat():
     cursor = connect_db('Festival_Features')
     query = cursor.find({}, {'_id': 0})
     return pd.DataFrame(list(query))
+
+
+def load_id_fest(id_fest):
+    """
+    Función que proporcionando un id de un Festival devuelve la información 
+    del festval alojada en la tabla Festival
+    """
+    cursor = connect_db('Festival')
+    query = cursor.find({'Id_Fest': id_fest}, {'_id': 0})
+    return pd.DataFrame(list(query))
+
+
+def load_band_feat(list_id_band):
+    cursor = connect_db('Bands_Features')
+    query = cursor.find({'Id_Band_Spotify': {"$in": list_id_band}}, {'_id': 0})
+    return pd.DataFrame(list(query))
