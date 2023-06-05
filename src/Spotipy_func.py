@@ -69,10 +69,10 @@ def get_user_playlists(user):
             dictio['User'] = user_dict['Display_name']
             dictio['User_Id'] = user_dict['Id']
             dictio['User_Url'] = user_dict['Url']
+            dictio['Id'] = item['id']
             dictio['Name'] = item['name']
             dictio['Playlist_Url'] = item['external_urls']['spotify']
             dictio['API_href'] = item['href']
-            dictio['Id'] = item['id']
 
             lst.append(dictio)
 
@@ -85,7 +85,47 @@ def get_user_playlists(user):
         else:
             are_next = False
 
-    if lst != 1:
+    if len(lst) != 1:
+        df = pd.DataFrame(lst)
+    else:
+        df = pd.DataFrame(lst, index=[0])
+
+    return df
+
+
+def get_playlist_tracks(id_):
+    """
+    Función que recibiendo un id de una playllist, devuelve un dataframe 
+    con las features de cada canción 
+    """
+    sp = get_connection()
+    try:
+        tracks = sp.playlist_tracks(id_)
+    except:
+        return None
+
+    lst = []
+    are_next = True
+    while are_next:
+        for track in tracks['items']:
+            dictio = dict()
+            dictio['Track'] = track['track']['name']
+            dictio['Id_Track'] = track['track']['id']
+            dictio['Bands'] = track['track']['artists'][0]['name']
+            dictio['Id_Band_Spotify'] = track['track']['artists'][0]['id']
+            dictio['Track_Popularity'] = track['track']['popularity']
+
+            lst.append(dictio)
+
+        if tracks['next']:
+            patron = r"offset=(\d+)"
+            offset = int(re.findall(
+                patron, tracks['next'].split('?')[-1])[0])
+            tracks = sp.playlist_tracks(id_, offset=offset)
+        else:
+            are_next = False
+
+    if len(lst) != 1:
         df = pd.DataFrame(lst)
     else:
         df = pd.DataFrame(lst, index=[0])
