@@ -207,9 +207,9 @@ def user_vectors(user):
                            right=df_features, right_on='id', how='left')
 
     # Creamos df con los vectores
-    vectors = pd.concat([df_features[['Id_Playlist', 'Track_Popularity']],
+    vectors = pd.concat([df_features[['Name_Playlist', 'Id_Playlist', 'Track_Popularity']],
                          df_features._get_numeric_data(
-    )], axis=1).groupby('Id_Playlist', as_index=False).mean()
+    )], axis=1).groupby(['Name_Playlist', 'Id_Playlist'], as_index=False).mean()
 
     # Añadimos Id de usuario
     vectors.insert(loc=0, column='User_Id',
@@ -218,7 +218,9 @@ def user_vectors(user):
     # Añadimos fila con el vector de todas las listas
 
     vectors.loc[vectors.shape[0]] = vectors.loc[0]
-    vectors.loc[vectors.shape[0]-1, 'Id_Playlist'] = 'All'
+    vectors.loc[vectors.shape[0]-1,
+                'Id_Playlist'] = f'All Playlist_{vectors.User_Id.unique()[0]}'
+    vectors.loc[vectors.shape[0]-1, 'Name_Playlist'] = 'All Playlist'
     vectors.loc[vectors.shape[0]-1,
                 'danceability':] = vectors._get_numeric_data().mean()
 
