@@ -6,14 +6,14 @@ from Spotify_id import *
 import pandas as pd
 
 
-def fest_similarity(user):
+def fest_similarity(user, top=10):
     """
-    Función que recibiendo un usuario de Spotify, devueleve la matriz de 
-    similaridad 
+    Función que recibiendo un usuario de Spotify, devuelve los 10 festivales 
+    más similares por cada playlist del usuario
     """
 
     # Comprobamos si tenemos registro del usuario en la DB
-    vector = find_user(user)
+    vector = find_user(user.lower())
 
     # Generamos vector de usauario y lo cargamos en caso de no tener
     # registro
@@ -44,4 +44,11 @@ def fest_similarity(user):
     df_similitud = pd.DataFrame(
         similitud, index=simil_fest.index, columns=simil_fest.index)
 
-    return df_similitud
+    playlist = vector.vector.Name_Playlist
+
+    sim_json = []
+
+    for p in playlist:
+        dictio = dict(df_similitud.drop(
+            columns=playlist).loc[p].sort_values(ascending=False)[0:5])
+        sim_json.append({p: dictio})

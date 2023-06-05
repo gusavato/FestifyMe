@@ -201,6 +201,9 @@ def user_vectors(user):
     # Obtenemos un dataframe con todas las canciones de todas las playlist
     unique_tracks = df_tracks.Id_Track.unique()
 
+    # Nos aseguramos que no hay ningún None Value
+    unique_tracks = list(filter(lambda x: x is not None, unique_tracks))
+
     df_features = get_audio_features(unique_tracks)
 
     df_features = pd.merge(left=df_tracks, left_on='Id_Track',
