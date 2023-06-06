@@ -200,7 +200,7 @@ def build_deploy(user):
     # Volvemos a hacer merge
     df_deploy = pd.merge(left=df_deploy,
                          left_on='Fest_Id',
-                         right=fest_,
+                         right=fest,
                          right_on='Id_Fest',
                          how='left').drop(columns=['Fest_Id'])
 
