@@ -78,6 +78,10 @@ def artist_similarity(user):
     Función que al introducir un usuario de Spotify devuelve un datafrane con 
     las afinidades por festival y lista
     """
+    # Comprobamos que no haya registro del usuario en la DB
+    check = check_rec(user)
+    if check.shape[0] > 0:
+        return check
 
     # Obtenemos los festivales recomendados para el usuario
     df_sim = fest_similarity(user)
@@ -91,6 +95,7 @@ def artist_similarity(user):
     # Inicializamos un DataFrame vacio
     df_artist_rec = pd.DataFrame(columns=['Playlist',
                                           'Fest_Id',
+                                          'Similarity',
                                           'Band',
                                           'Affinity'])
 
@@ -99,6 +104,10 @@ def artist_similarity(user):
 
         # Por cada Playlist vemos los festivales recomendados
         for fest_id in df_sim[df_sim.Playlist == plist]['ID_Fest']:
+
+            # Obtenemos la afinidad del festival para la playlist
+            sim = df_sim[(df_sim.Playlist == plist) & (
+                df_sim.ID_Fest == fest_id)]['Similarity'].values[0]
 
             # Obtenemos las bandas del festival que no están en las playlist
             fest = load_id_fest(fest_id)
@@ -133,13 +142,18 @@ def artist_similarity(user):
             rec = dict(simil.iloc[0, 1:].sort_values(
                 ascending=False)[:5])
 
-            df = pd.DataFrame([(plist, fest_id, k, v) for k, v in rec.items()],
+            df = pd.DataFrame([(plist, fest_id, sim, k, v) for k, v in rec.items()],
                               columns=['Playlist',
                                        'Fest_Id',
+                                       'Similarity',
                                        'Band',
                                        'Affinity'])
 
             df_artist_rec = pd.concat(
                 [df_artist_rec, df]).reset_index(drop=True)
+
+    df_artist_rec.insert(loc=0,
+                         column='User',
+                         value=user.lower())
 
     return df_artist_rec

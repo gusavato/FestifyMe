@@ -58,3 +58,15 @@ def load_band_feat(list_id_band):
     cursor = connect_db('Bands_Features')
     query = cursor.find({'Id_Band_Spotify': {"$in": list_id_band}}, {'_id': 0})
     return pd.DataFrame(list(query))
+
+
+def check_rec(user):
+    """
+    Función que comprueba si existe el usuario en la colección Recomendations. 
+    De ser así devuelve el DataFrame de recomendaciones, si no existe devuelve 
+    DataFrame vacío
+    """
+
+    cursor = connect_db(colec='Recomendations')
+    query = cursor.find({'User': user.lower()}, {'_id': 0})
+    return pd.DataFrame(list(query))
