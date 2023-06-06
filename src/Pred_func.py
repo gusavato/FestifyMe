@@ -96,7 +96,7 @@ def artist_similarity(user):
     df_artist_rec = pd.DataFrame(columns=['Playlist',
                                           'Fest_Id',
                                           'Similarity',
-                                          'Band',
+                                          'Id_Band',
                                           'Affinity'])
 
     # Recorremos todas las playlist del usuario
@@ -125,7 +125,7 @@ def artist_similarity(user):
                                              'Long',
                                              'Explicit',
                                              'Artist_Popularity',
-                                             'Id_Fest']).set_index('Bands')._get_numeric_data()
+                                             'Id_Fest']).set_index('Id_Band_Spotify')._get_numeric_data()
 
             vector_comp = vector.drop(columns=['User_Id',
                                                'Id_Playlist']).set_index('Name_Playlist').loc[plist]
@@ -146,7 +146,7 @@ def artist_similarity(user):
                               columns=['Playlist',
                                        'Fest_Id',
                                        'Similarity',
-                                       'Band',
+                                       'Id_Band',
                                        'Affinity'])
 
             df_artist_rec = pd.concat(
