@@ -149,11 +149,62 @@ def artist_similarity(user):
                                        'Id_Band',
                                        'Affinity'])
 
+            # Concatenamos con las recomendaciones previas
             df_artist_rec = pd.concat(
                 [df_artist_rec, df]).reset_index(drop=True)
 
+    # Añadimos columna de usuario
     df_artist_rec.insert(loc=0,
                          column='User',
                          value=user.lower())
 
+    # Subimos la tabla a la DB
+    insert_rec(df_artist_rec)
+
     return df_artist_rec
+
+
+def build_deploy(user):
+    """
+    Función que genera la tabla del usuario user, que se usará para la 
+    visualización en Streamlit
+    """
+
+    # Si el usuario ya tiene tabla la cargamos
+    check = check_deploy(user)
+    if check.shape[0] > 0:
+        return check
+
+    art_sim = artist_similarity(user)
+
+    band = band_rec(art_sim)
+
+    # Hacemos merge entre las dos tablas
+    df_deploy = pd.merge(left=art_sim,
+                         left_on='Id_Band',
+                         right=band,
+                         right_on='Id_Spotify',
+                         how='left')
+
+    # Nos quedamos solo con la información necesaria
+    df_deploy = df_deploy.drop(columns=['Id_Spotify',
+                                        'API_Uri',
+                                        'API_href'])
+
+    # Obtenemos la tabla de festivales
+    cursor = connect_db('Festival')
+    fest = pd.DataFrame(list(cursor.find({}, {'_id': 0})))
+    fest = fest.drop(columns=['Bands',
+                              'Id_Spotify']).drop_duplicates().reset_index(drop=True)
+
+    # Volvemos a hacer merge
+    df_deploy = pd.merge(left=df_deploy,
+                         left_on='Fest_Id',
+                         right=fest_,
+                         right_on='Id_Fest',
+                         how='left').drop(columns=['Fest_Id'])
+
+    # Cargamos la tabla en la DB
+    insert_deploy(df_deploy)
+
+    return df_deploy

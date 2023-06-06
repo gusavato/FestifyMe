@@ -70,3 +70,45 @@ def check_rec(user):
     cursor = connect_db(colec='Recomendations')
     query = cursor.find({'User': user.lower()}, {'_id': 0})
     return pd.DataFrame(list(query))
+
+
+def insert_rec(df):
+    """
+    Función que sube a la DB la tabla de recomendaciones (df) de un usuario
+    """
+    cursor = connect_db(colec='Recomendations')
+    insert_many(df=df, colec=cursor)
+
+
+def check_deploy(user):
+    """
+    Función que comprueba si existe el usuario en la colección Deploy.  
+    Devuelve bool
+    """
+
+    cursor = connect_db(colec='Deploy')
+    query = cursor.find({'User': user.lower()}, {'_id': 0})
+    return pd.DataFrame(list(query))
+
+
+def band_rec(df_rec):
+    """
+    Función que recibiendo una tabla de recomendaciones de un usuario, 
+    devuelve un dataframe con la información de las bandas que aparecen en 
+    dicha tabla
+    """
+
+    cursor = connect_db('Bands')
+    query = cursor.find(
+        {'Id_Spotify': {"$in": df_rec.Id_Band.unique().tolist()}}, {'_id': 0})
+    band = pd.DataFrame(list(query))
+
+    return band
+
+
+def insert_deploy(df):
+    """
+    Función que sube a la DB la tabla deploy (df) de un usuario
+    """
+    cursor = connect_db(colec='Deploy')
+    insert_many(df=df, colec=cursor)
