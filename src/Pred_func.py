@@ -39,6 +39,9 @@ def fest_similarity(user, top=8):
 
     if vector.shape[0] == 0:
         vector = user_vectors(user)
+        # Manejamos usuarios que no existan o sin listas
+        if vector is None:
+            return vector
         insert_many(vector, connect_db(colec='User_Features'))
 
     # Cargamos tabla Festival_Features
@@ -85,6 +88,10 @@ def artist_similarity(user):
 
     # Obtenemos los festivales recomendados para el usuario
     df_sim = fest_similarity(user)
+
+    # Manejamos usuarios sin lista o que no existan
+    if df_sim is None:
+        return None
 
     # Obtenemos todas las canciones de las playlist del usuario
     playlist_user = get_full_tracks(user)
@@ -176,6 +183,10 @@ def build_deploy(user):
         return check
 
     art_sim = artist_similarity(user)
+
+    # Manejamos usuarios sin lista o que no existan
+    if art_sim is None:
+        return None
 
     band = band_rec(art_sim)
 
