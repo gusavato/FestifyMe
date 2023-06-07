@@ -180,11 +180,9 @@ df_fest = load_id_fest(id_fest)
 
 # OBtenemos las bandas del festival
 list_id_band = df_fest.Id_Spotify.unique().tolist()
-# cursor = connect_db('Bands')
-# query = cursor.find({'Id_Spotify': {"$in": list_id_band}}, {
-#                     '_id': 0, 'API_href': 0, 'API_Uri': 0})
 df_bands = pd.read_parquet('../data/bands.parquet')
 df_bands = df_bands[df_bands.Id_Spotify.isin(list_id_band)]
+
 # Ordenamos por popularidad
 df_bands = df_bands.sort_values('Popularity', ascending=False)
 
