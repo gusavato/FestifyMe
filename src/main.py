@@ -24,12 +24,20 @@ if user is '':
 
 df = build_deploy(user)
 
+if df is None:
+    df = build_deploy('gus_57')
+    st.sidebar.markdown("""
+    <h2 style='font-size: 24px; color: red;'>Usuario no encontrado</h2>
+    """,
+                        unsafe_allow_html=True)
+    user = 'gus_57'
+
 
 # Ponemos título a la página
 
 st.markdown(
-    """
-    <h1 style='font-size: 48px; color: #8EF984;'>FestifyMe</h1>
+    f"""
+    <h1 style='font-size: 48px; color: #8EF984;'>FestifyMe for {user}</h1>
     """,
     unsafe_allow_html=True
 )
