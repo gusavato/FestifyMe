@@ -82,6 +82,7 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 draft.ipynb
+draft_map.ipynb
 draft_mongo.ipynb
 
 # IPython
