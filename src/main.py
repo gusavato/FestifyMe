@@ -16,7 +16,7 @@ st.sidebar.markdown(
     unsafe_allow_html=True
 )
 
-user = st.sidebar.text_input('User')
+user = st.sidebar.text_input('Usuario')
 if user is '':
     user = 'gus_57'
 
@@ -42,12 +42,32 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+st.markdown(
+    """
+    <h5 style='font-size: 24px; color: #8EF984;'>Casi 100 festivales, más de 1500 grupos. 
+    FestifyMe soluciona el dilema de cada verano- A qué festival ir y qué conciertos ver.
+    </h5>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    """
+    <div style='font-size: 20px; color: #8EF984;'>
+    Disfruta de la recomendación de festivales y grupos nuevos según las 
+    canciones de tus playlist de Spotify.</br> 
+    </div>
+    """,
+    unsafe_allow_html=True)
+
+st.markdown('***')
+
 # Creamos columnas mapa Festival
 
 col_map, col_fest = st.columns([45, 55], gap='large')
 
 with col_map:
-    playlist = st.selectbox('Filtrar Playlist', df.Playlist.unique())
+    playlist = st.selectbox('Filtrar por Playlist', df.Playlist.unique())
 
     # Creamos mapa
     mapa = folium.Map(location=[40.0167278, -1.7033387],
@@ -83,6 +103,13 @@ df_click = df[(df.Playlist == playlist) & (df.Festival == fest_click)]
 f_rec = df[['Playlist', 'Festival', 'Similarity']].drop_duplicates()
 f_rec = f_rec[f_rec.Playlist == playlist]
 zip_f_rec = list(zip(f_rec.Festival, f_rec.Similarity))
+
+st.sidebar.markdown(
+    """
+            <h4 style='font-size: 25px;color:#5787DE'>Festivales Recomendados</h4>
+            """,
+    unsafe_allow_html=True
+)
 
 st.sidebar.subheader(zip_f_rec[0][0])
 st.sidebar.write(f'{round(zip_f_rec[0][1]*100,2)} %')
@@ -131,7 +158,7 @@ with col_fest:
         st.metric(label="**Afinidad**", value=f'{sim}%')
 
     st.markdown("""
-                <h3 style='font-size: 32px;'>Bandas recomendadas</h3>
+                <h3 style='font-size: 32px;'>Bandas recomendadas por descubrir</h3>
                 """,
                 unsafe_allow_html=True)
     st.markdown('***')
@@ -194,7 +221,7 @@ band_fest = list(
 
 
 st.markdown("""
-            <h3 style='font-size: 32px;'>Cartel</h3>
+            <h3 style='font-size: 32px;'>Cabezas de Cartel</h3>
             """,
             unsafe_allow_html=True)
 st.markdown('***')
