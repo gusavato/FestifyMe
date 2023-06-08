@@ -25,4 +25,4 @@ propuesto, también te sugerirá 5 bandas que no se encuentran en tus playlist.
 
 <video src="./images/FestifyMe.mp4" controls title="Title"></video>
 
-![Alt text](images/V%C3%ADdeo%20sin%20t%C3%ADtulo%20%E2%80%90%20Hecho%20con%20Clipchamp.gif)
+![Alt text](./images/V%C3%ADdeo%20sin%20t%C3%ADtulo%20%E2%80%90%20Hecho%20con%20Clipchamp.gif)
