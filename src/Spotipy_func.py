@@ -154,6 +154,8 @@ def get_full_tracks(user):
 
     for row in df_playlist.itertuples():
         df = get_playlist_tracks(row.Id)
+        if df.shape[0] == 0:
+            continue
         df[['User', 'User_Id', 'Name_Playlist', 'Id_Playlist']] = [
             row.User, row.User_Id, row.Name, row.Id]
         df = df[['User', 'User_Id', 'Name_Playlist', 'Id_Playlist', 'Track',
@@ -181,6 +183,9 @@ def get_audio_features(list_tracks):
     for l in lst:
         for track in l:
             features.append(track)
+
+    # Quitamos los None de la lista
+    features = list(filter(lambda x: x is not None, features))
 
     df_features = pd.DataFrame(features)
 
