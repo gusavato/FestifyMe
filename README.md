@@ -25,5 +25,5 @@ propuesto, también te sugerirá 5 bandas que no se encuentran en tus playlist. 
 este [video](https://github.com/gusavato/FestifyMe/blob/main/images/FestifyMe.mp4) 
 puedes ver su funcionamiento.
 
-https://github.com/gusavato/FestifyMe/assets/69910815/a390b899-fa1c-41af-83de-878e155d5f37
+https://github.com/gusavato/FestifyMe/assets/69910815/8a36f4d6-7790-4f6b-9c13-6246909bfe12
 
