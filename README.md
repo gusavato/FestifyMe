@@ -1,10 +1,10 @@
 # FestifyMe
 
 
-<div style="text-align:center">
+<!-- <div style="text-align:center">
     <img src="./images/FestifyMe_capture.png" alt="portada">
 </div>
-
+ -->
 
 
 ## Indice:
