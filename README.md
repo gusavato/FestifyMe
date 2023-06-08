@@ -53,4 +53,14 @@ Con esta información realizaremos los siguientes pasos:
 a los festivales. Con ello crearemos un vector que defina cada festival y cada banda, que se
 usará para la generación de recomendaciones (Notebook [Artist_features](https://github.com/gusavato/FestifyMe/blob/main/src/jupyter/Artist_features.ipynb))
 
-2. 
+2. Crearemos un archivo ['Spotipy_func.py](https://github.com/gusavato/FestifyMe/blob/main/src/Spotipy_func.py), donde defineremos distintas funciones, que nos permitiran obtener la 
+información de Spotify de cada usario. El objetivo es analizar esta información, y crear 
+distintos vectores para cada usuario, que se compararán con los de los fesitvales y grupos 
+para obtener las recomendaciones.
+
+3. En el archivo [DB_func.py](https://github.com/gusavato/FestifyMe/blob/main/src/DB_func.py), se definirán las funciones de carga y extracción de tablas a la base de datos
+
+4. Se generarán recomendaciones con las funciones definidas en el archivo [Pred_func.py](https://github.com/gusavato/FestifyMe/blob/main/src/Pred_func.py). La metodología empleada es
+comparar la [similitud de coseno](https://es.wikipedia.org/wiki/Similitud_coseno) de los distintos vectores, y con ello generar una afinidad en %.
+
+5. Por último, en el archivo [main.py](https://github.com/gusavato/FestifyMe/blob/main/src/main.py) se construye la estructura de la app desarrollada en [streamlit](https://docs.streamlit.io/)
