@@ -83,3 +83,30 @@ a la página de Spotify del artista.</br>
     <img src="./images/FestifyMe_capture.png" alt="Alt text">
 </center>
 
+## Próximos pasos: <a name="next"/>
+
+Los siguientes avances que están programados hacer en este proyecto son los
+siguientes:
+
+- Desplegar la app para que cualquier usuario pueda acceder a ella.
+- Crear plataforma de acceso para la solicitud de permisos al usuario, para así 
+poder acceder a más información del usuario y hacer una mejor recomendación
+
+## Estructura:<a name="Estructura"/>
+
+```
+root 
+|__ data/               # Contiene todos los .parquet con la información de festivales y artistas            
+|
+|__ images/             # Contiene la imágenes que se han usado en el proyecto   
+|
+|__ src/                # Contiene el código fuente del proyecto
+|   |
+|   |__ jupyter/        # Notebooks empleados en la transformación de tablas
+|
+|__ .gitignore          # Archivo gitignore     
+|
+|__ README.md           # Descripción del proyecto
+|
+|__ LICENSE             # Licencia del proyecto
+
