@@ -1,9 +1,9 @@
 # FestifyMe
 
 
-<div style="text-align:center">
-    <img src="./images/FestifyMe_logo.jpeg" alt="portada" width='200'>
-</div>
+<center>
+    <img src="./images/FestifyMe_logo.jpeg" alt="Alt text" width="300">
+</center>
 
 
 ***
