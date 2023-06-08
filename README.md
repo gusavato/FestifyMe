@@ -24,3 +24,6 @@ la app te recomendará 8 festivales por cada playlist. Además por cada festival
 propuesto, también te sugerirá 5 bandas que no se encuentran en tus playlist. En
 este [video](https://github.com/gusavato/FestifyMe/blob/main/images/FestifyMe.mp4) 
 puedes ver su funcionamiento.
+
+https://github.com/gusavato/FestifyMe/assets/69910815/a390b899-fa1c-41af-83de-878e155d5f37
+
