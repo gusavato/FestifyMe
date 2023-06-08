@@ -2,7 +2,7 @@
 
 
 <center>
-    <img src="./images/FestifyMe_logo.jpeg" alt="Alt text" width="300">
+    <img src="./images/FestifyMe_logo.jpeg" alt="Alt text" width="350">
 </center>
 
 
@@ -14,7 +14,7 @@
 3.[⏳ Desarrollo](#desarrollo)\
 4.[📈 Resultado](#resultado)\
 5.[⏭️ Próximos Pasos](#next)\
-5.[📁 Estructura](#Estructura)
+6.[📁 Estructura](#Estructura)
 
 ## Descripción:<a name="descripcion"/>
 
@@ -77,4 +77,9 @@ tenga el usario, y una predicción adicional donde se tienen en cuenta todas las
 la popularidad de cada artista en Spotify.
 - El usuario puede navegar por la aplicación selccionando distintos festivales y 
 playlist. También puede hacer click en los distintos artistas, para que le redireccionen
-a la página de Spotify del artista.
+a la página de Spotify del artista.</br>
+
+<center>
+    <img src="./images/FestifyMe_capture.png" alt="Alt text">
+</center>
+
